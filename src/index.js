@@ -1,11 +1,15 @@
-var urlPath = require("url_path");
+var urlPath = require("url_path"),
+    environment = require("environment");
 
 
 var reURL = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/;
 
 
-module.exports = function sameOrigin(url, origin) {
-    var parts, urlPort, testPort;
+module.exports = sameOrigin;
+
+
+function sameOrigin(url, origin) {
+    var parts, originParts;
 
     if (!urlPath.isAbsoluteURL(url)) {
         return true;
@@ -21,15 +25,38 @@ module.exports = function sameOrigin(url, origin) {
         return false;
     }
 
-    urlPort = originParts[3];
-    testPort = parts[3];
+    return campare(parts, originParts);
+}
+
+if (environment.browser) {
+    browser_originParts = reURL.exec(location.origin.toLowerCase());
+
+    sameOrigin.browser = function(url) {
+        var parts;
+
+        if (!urlPath.isAbsoluteURL(url)) {
+            return true;
+        }
+
+        parts = reURL.exec(url.toLowerCase());
+        if (!parts) {
+            return false;
+        }
+
+        return campare(parts, browser_originParts);
+    };
+}
+
+function campare(a, b) {
+    var aPort = a[3],
+        bPort = b[3];
 
     return !(
-        (parts[1] !== originParts[1]) ||
-        (parts[2] !== originParts[2]) || !(
-            (testPort === urlPort) ||
-            (!testPort && (urlPort === "80" || urlPort === "443")) ||
-            (!urlPort && (testPort === "80" || testPort === "443"))
+        (a[1] !== b[1]) ||
+        (a[2] !== b[2]) || !(
+            (aPort === bPort) ||
+            (!aPort && (bPort === "80" || bPort === "443")) ||
+            (!bPort && (aPort === "80" || aPort === "443"))
         )
     );
-};
+}

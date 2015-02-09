@@ -21,6 +21,7 @@
     "mocha": "^2.1.0"
   },
   "dependencies": {
-    "url_path": "nathanfaucett/url_path"
+    "url_path": "nathanfaucett/url_path",
+    "environment": "nathanfaucett/environment"
   }
 }
