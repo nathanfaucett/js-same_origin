@@ -2,7 +2,8 @@ var urlPath = require("url_path"),
     environment = require("environment");
 
 
-var reURL = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/;
+var reURL = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/,
+    browserOriginParts;
 
 
 module.exports = sameOrigin;
@@ -29,7 +30,7 @@ function sameOrigin(url, origin) {
 }
 
 if (environment.browser) {
-    browser_originParts = reURL.exec(location.origin.toLowerCase());
+    browserOriginParts = reURL.exec(location.origin.toLowerCase()) || [];
 
     sameOrigin.browser = function(url) {
         var parts;
@@ -43,7 +44,7 @@ if (environment.browser) {
             return false;
         }
 
-        return campare(parts, browser_originParts);
+        return campare(parts, browserOriginParts);
     };
 }
 
