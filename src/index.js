@@ -14,37 +14,40 @@ function sameOrigin(url, origin) {
 
     if (!urlPath.isAbsoluteURL(url)) {
         return true;
-    }
+    } else {
+        parts = reURL.exec(url.toLowerCase());
 
-    parts = reURL.exec(url.toLowerCase());
-    if (!parts) {
-        return false;
-    }
+        if (!parts) {
+            return false;
+        } else {
+            originParts = reURL.exec(origin.toLowerCase());
 
-    originParts = reURL.exec(origin.toLowerCase());
-    if (!originParts) {
-        return false;
+            if (!originParts) {
+                return false;
+            } else {
+                return campare(parts, originParts);
+            }
+        }
     }
-
-    return campare(parts, originParts);
 }
 
 if (environment.browser) {
     browserOriginParts = reURL.exec(location.origin.toLowerCase()) || [];
 
-    sameOrigin.browser = function(url) {
+    sameOrigin.browser = function sameOriginBrowser(url) {
         var parts;
 
         if (!urlPath.isAbsoluteURL(url)) {
             return true;
-        }
+        } else {
+            parts = reURL.exec(url.toLowerCase());
 
-        parts = reURL.exec(url.toLowerCase());
-        if (!parts) {
-            return false;
+            if (!parts) {
+                return false;
+            } else {
+                return campare(parts, browserOriginParts);
+            }
         }
-
-        return campare(parts, browserOriginParts);
     };
 }
 
