@@ -1,5 +1,5 @@
-var urlPath = require("url_path"),
-    environment = require("environment");
+var urlPath = require("@nathanfaucett/url_path"),
+    environment = require("@nathanfaucett/environment");
 
 
 var reURL = /^([\w.+-]+:)(?:\/\/(?:[^\/?#]*@|)([^\/?#:]*)(?::(\d+)|)|)/,
