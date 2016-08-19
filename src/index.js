@@ -32,7 +32,15 @@ function sameOrigin(url, origin) {
 }
 
 if (environment.browser) {
-    browserOriginParts = reURL.exec(location.origin.toLowerCase()) || [];
+    browserOriginParts = reURL.exec((function getLocationOrigin() {
+        var location = environment.window.location;
+
+        return location.origin || (
+            location.protocol + "//" +
+            location.hostname +
+            (location.port ? ":" + location.port : "")
+        );
+    }()).toLowerCase()) || [];
 
     sameOrigin.browser = function sameOriginBrowser(url) {
         var parts;
