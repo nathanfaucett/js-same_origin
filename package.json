@@ -1,6 +1,6 @@
 {
   "name": "@nathanfaucett/same_origin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "same origin url checker",
   "repository": {
     "type": "git",
@@ -30,6 +30,6 @@
   },
   "dependencies": {
     "@nathanfaucett/url_path": "^0.0.1",
-    "@nathanfaucett/environment": "^0.0.1"
+    "@nathanfaucett/environment": "^0.0.2"
   }
 }
